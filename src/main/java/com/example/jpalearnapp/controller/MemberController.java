@@ -15,7 +15,7 @@ public class MemberController {
     @GetMapping("/createMember")
     public Member saveMember() {
         Member member = repository.save(new Member("steve"));
-        System.out.println(member.getName());
+        System.out.println(member.getUserName());
         return member;
     }
 }
