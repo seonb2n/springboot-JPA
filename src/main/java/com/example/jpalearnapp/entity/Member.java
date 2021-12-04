@@ -39,6 +39,11 @@ public class Member {
         }
     }
 
+    public Member(String userName, int age) {
+        this.userName = userName;
+        this.age = age;
+    }
+
     public void setTeam(Team team) {
         this.team = team;
     }
