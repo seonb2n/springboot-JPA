@@ -50,4 +50,18 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    //이름으로 내림차순해서 페이징
+    public List<Member> findByPage(int age, int offset, int limit) {
+        return em.createQuery("select m from Member m" +
+                " where m.age = :age order by m.userName desc")
+                .setParameter("age", age)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    //나이로 개수 가져오기
+    public long totalCount(int age) {
+        return em.createQuery("select count(m) from Member m where m.age = :age", Long.class).getSingleResult();
+    }
 }

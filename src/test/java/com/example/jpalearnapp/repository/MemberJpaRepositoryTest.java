@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Rollback(value = false)
 class MemberJpaRepositoryTest {
 
     @Autowired
@@ -69,5 +74,45 @@ class MemberJpaRepositoryTest {
         names.add("ccc");
         List<Member> result = memberJpaRepository.findByNames(names);
         assertThat(result.size()).isEqualTo(3);
+        result.get(0).setUserName("AAA");
+        Optional<Member> aaa = memberJpaRepository.findMemberByUserName("AAA");
+        assertThat(aaa.get().getUserName()).isEqualTo("AAA");
     }
+
+    @Test
+    public void paging() throws Exception {
+
+        int age = 20;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "userName"));
+
+        Page<Member> page = memberJpaRepository.findByAge(age, pageRequest);
+
+        //page 를 dto 로 변환하는 방법
+        Page<MemberDto> toMap = page.map(member -> new MemberDto(member.getUserName(), member.getAge(), member.getTeam().getName()));
+
+        List<Member> content = page.getContent();
+
+        assertThat(content.size()).isEqualTo(3);
+        assertThat(page.getTotalElements()).isEqualTo(4);
+        assertThat(page.getNumber()).isEqualTo(0); //페이지의 번호를 가져온다
+        assertThat(page.getTotalPages()).isEqualTo(2); //페이지의 전체 쪽수
+        assertThat(page.isFirst()).isTrue();
+        assertThat(page.hasNext()).isTrue();
+
+    }
+
+    @Test
+    public void slicing() throws Exception {
+        int age = 20;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "userName"));
+
+        Slice<Member> slice = memberJpaRepository.findByAge(age, pageRequest);
+        //limit 를 4개로 가져옴.
+        List<Member> content = slice.getContent();
+
+        assertThat(content.size()).isEqualTo(3);
+        assertThat(slice.getNumber()).isEqualTo(0);
+    }
+
+
 }

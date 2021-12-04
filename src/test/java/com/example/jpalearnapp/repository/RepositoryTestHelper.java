@@ -25,9 +25,9 @@ public class RepositoryTestHelper {
 
     public void initDB() {
         createMember("aaa", 20);
-        createMember("bbb", 15);
-        createMember("ccc", 13);
-        createMember("ddd", 21);
+        createMember("bbb", 20);
+        createMember("ccc", 20);
+        createMember("ddd", 20);
         createTeam("Team A");
         createTeam("Team B");
 
