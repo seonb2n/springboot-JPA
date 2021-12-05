@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,8 @@ class MemberJpaRepositoryTest {
     MemberJpaRepository memberJpaRepository;
     @Autowired
     TeamJpaRepository teamJpaRepository;
+    @PersistenceContext
+    EntityManager em;
 
     private RepositoryTestHelper repositoryTestHelper;
 
@@ -114,5 +118,16 @@ class MemberJpaRepositoryTest {
         assertThat(slice.getNumber()).isEqualTo(0);
     }
 
+    @Test
+    public void bulkAgePlusTest() throws Exception {
+        int age = 20;
+        int result = memberJpaRepository.bulkAgePlus(age);
+//        em.flush();
+//        em.clear();
+        Optional<Member> bbb = memberJpaRepository.findMemberByUserName("bbb");
+        System.out.println("bbb.get().getAge() = " + bbb.get().getAge());
+
+        assertThat(result).isEqualTo(2);
+    }
 
 }

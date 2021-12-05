@@ -24,10 +24,10 @@ public class RepositoryTestHelper {
     }
 
     public void initDB() {
-        createMember("aaa", 20);
+        createMember("aaa", 15);
         createMember("bbb", 20);
-        createMember("ccc", 20);
-        createMember("ddd", 20);
+        createMember("ccc", 25);
+        createMember("ddd", 19);
         createTeam("Team A");
         createTeam("Team B");
 

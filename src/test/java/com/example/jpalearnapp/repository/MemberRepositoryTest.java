@@ -1,6 +1,7 @@
 package com.example.jpalearnapp.repository;
 
 import com.example.jpalearnapp.entity.Member;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,8 @@ class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    private RepositoryTestHelper repositoryTestHelper;
 
     @Test
     public void findByUsernameAndAgeTest() throws Exception {
