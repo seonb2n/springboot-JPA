@@ -2,8 +2,6 @@ package com.example.jpalearnapp.repository;
 
 import com.example.jpalearnapp.entity.Member;
 import com.example.jpalearnapp.entity.Team;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 public class RepositoryTestHelper {
 
@@ -31,10 +29,10 @@ public class RepositoryTestHelper {
         createTeam("Team A");
         createTeam("Team B");
 
-        memberjpaRepository.findMemberByUserName("aaa").get().setTeam(teamJpaRepository.findTeamByName("Team A").get());
-        memberjpaRepository.findMemberByUserName("bbb").get().setTeam(teamJpaRepository.findTeamByName("Team A").get());
-        memberjpaRepository.findMemberByUserName("ccc").get().setTeam(teamJpaRepository.findTeamByName("Team B").get());
-        memberjpaRepository.findMemberByUserName("ddd").get().setTeam(teamJpaRepository.findTeamByName("Team B").get());
+        memberjpaRepository.findByUserName("aaa").get().setTeam(teamJpaRepository.findTeamByName("Team A").get());
+        memberjpaRepository.findByUserName("bbb").get().setTeam(teamJpaRepository.findTeamByName("Team A").get());
+        memberjpaRepository.findByUserName("ccc").get().setTeam(teamJpaRepository.findTeamByName("Team B").get());
+        memberjpaRepository.findByUserName("ddd").get().setTeam(teamJpaRepository.findTeamByName("Team B").get());
     }
 
 

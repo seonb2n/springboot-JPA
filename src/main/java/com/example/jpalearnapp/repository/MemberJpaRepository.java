@@ -5,6 +5,7 @@ import com.example.jpalearnapp.entity.dto.MemberDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +23,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
             "join m.team t")
     List<MemberDto> findMemberDto();
 
-    Optional<Member> findMemberByUserName(String userName);
+    Optional<Member> findByUserName(String userName);
 
     @Query("select m from Member m where m.userName in :names")
     List<Member> findByNames(@Param("names") List<String> names);
@@ -37,4 +38,16 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
     @Modifying(clearAutomatically = true) //update 쿼리를 사용하기 위해서는 @Modifying 필요
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
     int bulkAgePlus(@Param("age") int age);
+
+    @Query("select m from Member m left join fetch m.team")
+    List<Member> findMemberUsingFetchJoin();
+
+    //entity graph 사용해서 fetch join 해결하기
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraph();
 }

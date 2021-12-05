@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -79,7 +78,7 @@ class MemberJpaRepositoryTest {
         List<Member> result = memberJpaRepository.findByNames(names);
         assertThat(result.size()).isEqualTo(3);
         result.get(0).setUserName("AAA");
-        Optional<Member> aaa = memberJpaRepository.findMemberByUserName("AAA");
+        Optional<Member> aaa = memberJpaRepository.findByUserName("AAA");
         assertThat(aaa.get().getUserName()).isEqualTo("AAA");
     }
 
@@ -124,10 +123,29 @@ class MemberJpaRepositoryTest {
         int result = memberJpaRepository.bulkAgePlus(age);
 //        em.flush();
 //        em.clear();
-        Optional<Member> bbb = memberJpaRepository.findMemberByUserName("bbb");
+        Optional<Member> bbb = memberJpaRepository.findByUserName("bbb");
         System.out.println("bbb.get().getAge() = " + bbb.get().getAge());
 
         assertThat(result).isEqualTo(2);
     }
+
+    @Test
+    public void fetchJoinTest() throws Exception {
+        List<Member> memberUsingFetchJoin = memberJpaRepository.findAll();
+        for (Member member : memberUsingFetchJoin) {
+            System.out.println("member.getUserName() = " + member.getUserName());
+            System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
+        }
+    }
+
+    @Test
+    public void findMemberWithEntityGraphTest() throws Exception {
+        List<Member> memberEntityGraph = memberJpaRepository.findMemberEntityGraph();
+        for (Member member : memberEntityGraph) {
+            System.out.println("member = " + member.getUserName());
+            System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
+        }
+    }
+
 
 }
