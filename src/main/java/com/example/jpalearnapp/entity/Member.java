@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue

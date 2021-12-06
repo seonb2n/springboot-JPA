@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Data
-public class Team {
+public class Team extends JpaBaseEntity{
 
     @Id
     @GeneratedValue

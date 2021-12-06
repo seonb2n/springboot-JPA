@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
 class MemberJpaRepositoryTest {
 
     @Autowired
@@ -145,6 +144,23 @@ class MemberJpaRepositoryTest {
             System.out.println("member = " + member.getUserName());
             System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
         }
+    }
+
+    @Test
+    public void queryHintTest() throws Exception {
+        Member aaa = memberJpaRepository.findReadOnlyByUserName("aaa");
+        aaa.setUserName("AAA");
+    }
+
+    @Test
+    public void lockTest() throws Exception {
+        Member aaa = memberJpaRepository.findLockByUserName("aaa");
+
+    }
+
+    @Test
+    public void callCustomTest() throws Exception {
+        List<Member> memberCustom = memberJpaRepository.findMemberCustom();
     }
 
 
