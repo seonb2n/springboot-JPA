@@ -1,5 +1,6 @@
 package com.example.jpalearnapp.entity.dto;
 
+import com.example.jpalearnapp.entity.Member;
 import com.example.jpalearnapp.entity.Team;
 import lombok.Data;
 
@@ -14,5 +15,11 @@ public class MemberDto {
         this.userName = userName;
         this.age = age;
         this.teamName = teamName;
+    }
+
+    public MemberDto(Member member) {
+        this.userName = member.getUserName();
+        this.age = member.getAge();
+
     }
 }
