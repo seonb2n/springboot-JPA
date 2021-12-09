@@ -163,5 +163,32 @@ class MemberJpaRepositoryTest {
         List<Member> memberCustom = memberJpaRepository.findMemberCustom();
     }
 
+    @Test
+    public void projections() throws Exception {
+        List<UsernameOnly> result = memberJpaRepository.findProjectionsByUserName("aaa");
+        //인터페이스만 만들면 spring data jpa가 구현체를 만들어줌
+        for (UsernameOnly usernameOnly : result) {
+            System.out.println("usernameOnly = " + usernameOnly.getUserName());
+        }
+    }
+
+    //구체적 class 를 만들어도 된다.
+    @Test
+    public void projections2() throws Exception {
+        List<UserNameOnlyDto> result = memberJpaRepository.findProjections2ByUserName("aaa");
+        for (UserNameOnlyDto userNameOnlyDto : result) {
+            System.out.println("userNameOnlyDto = " + userNameOnlyDto.getUserName());
+        }
+    }
+
+
+    @Test
+    public void nativeQuery() throws Exception {
+        Page<MemberProjection> byNativeProection = memberJpaRepository.findByNativeProection(PageRequest.of(0, 10));
+        List<MemberProjection> result = byNativeProection.getContent();
+        for (MemberProjection memberProjection : result) {
+            System.out.println("memberProjection = " + memberProjection.getUserName());
+        }
+    }
 
 }

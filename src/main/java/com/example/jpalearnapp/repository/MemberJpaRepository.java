@@ -55,4 +55,14 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long>, Member
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Member findLockByUserName(String username);
+
+    List<UsernameOnly> findProjectionsByUserName(@Param("userName") String userName);
+
+    List<UserNameOnlyDto> findProjections2ByUserName(@Param("userName") String userName);
+
+    @Query(value = "select m.member_id as id, m.userName, t.name as teamName "
+                    + "from member m left join team t",
+                    countQuery = "select count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProection(Pageable pageable);
 }
